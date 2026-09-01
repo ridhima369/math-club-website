@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Math Club</title>
+<style>
+  /* ============================================================
+     EASY-EDIT GUIDE (for future officers with little coding experience)
+     - Club name / tagline: search "EDIT: CLUB NAME"
+     - Meeting time/place:  search "EDIT: MEETING INFO"
+     - Add an update:       search "EDIT: ADD NEW UPDATE HERE"
+     - Problem of the Month: search "EDIT: PROBLEM OF THE MONTH"
+     - Officer photos/names: search "EDIT: OFFICER CARD"
+     - Footer contact info:  search "EDIT: FOOTER CONTACT"
+     ============================================================ */
+
+  :root {
+    --navy: #0b2545;
+    --navy-light: #13315c;
+    --blue: #2f6fed;
+    --blue-hover: #1d54c9;
+    --bg: #f5f8fc;
+    --card-bg: #ffffff;
+    --text: #1c2b3a;
+    --muted: #5a6b7d;
+    --border: #dde6f0;
+    --radius: 6px;
+  }
+
+  * { box-sizing: border-box; }
+
+  html, body {
+    margin: 0;
+    padding: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: "Segoe UI", Verdana, Helvetica, Arial, sans-serif;
+    line-height: 1.6;
+    font-size: 17px;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1, h2, h3 { color: var(--navy); margin-top: 0; }
+
+  a { color: var(--blue); }
+
+  /* ---------- Header ---------- */
+  header {
+    position: relative;
+    background: var(--navy);
+    color: #fff;
+    padding: 3rem 1.5rem 2.5rem;
+    overflow: hidden;
+    text-align: center;
+  }
+
+  /* Faint geometric grid pattern in header background */
+  header::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.06) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.06) 1px, transparent 1px);
+    background-size: 36px 36px;
+    pointer-events: none;
+  }
+
+  /* Faint decorative math symbols floating in the header */
+  header .math-deco {
+    position: absolute;
+    font-family: Georgia, "Times New Roman", serif;
+    color: rgba(255,255,255,0.10);
+    font-weight: bold;
+    pointer-events: none;
+    user-select: none;
+  }
+  header .md1 { top: 8%;  left: 6%;  font-size: 3.2rem; transform: rotate(-8deg); }
+  header .md2 { top: 55%; left: 12%; font-size: 2.2rem; transform: rotate(10deg); }
+  header .md3 { top: 15%; right: 8%; font-size: 3.6rem; transform: rotate(6deg); }
+  header .md4 { bottom: 10%; right: 14%; font-size: 2.4rem; transform: rotate(-12deg); }
+  header .md5 { bottom: 12%; left: 42%; font-size: 2rem; transform: rotate(4deg); }
+
+  header .header-inner { position: relative; z-index: 1; max-width: 900px; margin: 0 auto; }
+
+  /* EDIT: CLUB NAME - change the club name and tagline text below (in the HTML body, not here) */
+  header h1 {
+    color: #fff;
+    font-size: clamp(2rem, 5vw, 2.8rem);
+    margin-bottom: 0.4rem;
+    letter-spacing: 0.5px;
+  }
+
+  header p.tagline {
+    color: #cfe0fb;
+    font-size: 1.1rem;
+    margin: 0 0 1.6rem;
+  }
+
+  /* ---------- Nav / Tabs ---------- */
+  nav.tabs {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.6rem;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  nav.tabs button {
+    font-family: inherit;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #fff;
+    background: transparent;
+    border: 1px solid rgba(255,255,255,0.35);
+    padding: 0.65rem 1.3rem;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+
+  nav.tabs button:hover {
+    background: rgba(255,255,255,0.12);
+  }
+
+  nav.tabs button.active {
+    background: var(--blue);
+    border-color: var(--blue);
+  }
+
+  /* ---------- Main content ---------- */
+  main {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 2.5rem 1.5rem 4rem;
+  }
+
+  .tab-panel { display: none; animation: fadeIn 0.35s ease; }
+  .tab-panel.active { display: block; }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(6px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.6rem 1.8rem;
+  }
+
+  .card:hover {
+    border-color: var(--blue);
+  }
+
+  /* Buttons */
+  .btn {
+    display: inline-block;
+    font-family: inherit;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #fff;
+    background: var(--blue);
+    border: none;
+    padding: 0.8rem 1.6rem;
+    border-radius: 4px;
+    cursor: pointer;
+    text-decoration: none;
+  }
+
+  .btn:hover {
+    background: var(--blue-hover);
+  }
+
+  /* ---------- HOME TAB ---------- */
+  .home-hero {
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+
+  .home-hero .symbol-row {
+    font-size: 1.6rem;
+    color: var(--blue);
+    letter-spacing: 1rem;
+    margin-bottom: 0.5rem;
+    opacity: 0.6;
+  }
+
+  .info-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.2rem;
+    margin: 1.8rem 0;
+  }
+
+  @media (max-width: 600px) {
+    .info-grid { grid-template-columns: 1fr; }
+  }
+
+  .info-grid .card h3 {
+    font-size: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--blue);
+    margin-bottom: 0.4rem;
+  }
+
+  .cta-wrap { text-align: center; margin-top: 2rem; }
+
+  /* ---------- UPDATES TAB ---------- */
+  .update-card {
+    margin-bottom: 1.2rem;
+  }
+
+  .update-date {
+    display: inline-block;
+    background: #e7f0fe;
+    color: var(--navy);
+    font-weight: 700;
+    font-size: 0.85rem;
+    padding: 0.3rem 0.7rem;
+    border-radius: 4px;
+    margin-bottom: 0.6rem;
+  }
+
+  .update-card h3 { margin-bottom: 0.4rem; }
+  .update-card p { color: var(--muted); margin: 0; }
+
+  /* ---------- PROBLEM OF THE MONTH TAB ---------- */
+  .potm-box {
+    border: 1px solid var(--blue);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .potm-box::after {
+    content: "∑ π ∞ Δ";
+    position: absolute;
+    right: -10px;
+    bottom: -14px;
+    font-size: 3.5rem;
+    color: rgba(47,111,237,0.08);
+    font-family: Georgia, serif;
+    font-weight: bold;
+    pointer-events: none;
+  }
+
+  .potm-label {
+    display: inline-block;
+    background: var(--navy);
+    color: #fff;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    padding: 0.35rem 0.8rem;
+    border-radius: 4px;
+    margin-bottom: 0.8rem;
+  }
+
+  .potm-image-placeholder {
+    margin-top: 1.2rem;
+    background: #eef2f7;
+    border: 1px dashed #b9c7d6;
+    border-radius: 6px;
+    height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--muted);
+    font-size: 0.95rem;
+    text-align: center;
+    padding: 1rem;
+  }
+
+  .prize-callout {
+    background: #fdf3d7;
+    border: 1px solid #e8cf8e;
+    border-radius: var(--radius);
+    padding: 1.2rem 1.6rem;
+    margin: 1.4rem 0;
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+  }
+
+  .prize-callout .prize-label {
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: #8a6d1a;
+    background: #f5e2a3;
+    padding: 0.3rem 0.6rem;
+    border-radius: 4px;
+    flex-shrink: 0;
+  }
+  .prize-callout strong { color: var(--navy); }
+
+  .submit-box {
+    margin-top: 1.4rem;
+  }
+
+  .submit-box ol { padding-left: 1.2rem; color: var(--text); }
+
+  .archive-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 0.8rem;
+    font-size: 0.95rem;
+  }
+
+  .archive-table th, .archive-table td {
+    text-align: left;
+    padding: 0.6rem 0.7rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .archive-table th {
+    color: var(--navy);
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+
+  /* ---------- OFFICERS TAB ---------- */
+  .officer-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 1.4rem;
+  }
+
+  .officer-card {
+    text-align: center;
+    padding: 1.6rem 1.2rem;
+  }
+
+  .officer-photo {
+    width: 110px;
+    height: 110px;
+    margin: 0 auto 1rem;
+    background: #d9e2ec;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #7d8b9a;
+    font-size: 0.8rem;
+    text-align: center;
+    border: 1px dashed #b9c7d6;
+  }
+
+  .officer-card h3 { font-size: 1.1rem; margin-bottom: 0.15rem; }
+  .officer-title {
+    color: var(--blue);
+    font-weight: 600;
+    font-size: 0.9rem;
+    margin-bottom: 0.5rem;
+  }
+  .officer-bio { color: var(--muted); font-size: 0.9rem; margin: 0; }
+
+  /* ---------- Footer ---------- */
+  footer {
+    background: var(--navy);
+    color: #cfe0fb;
+    text-align: center;
+    padding: 2rem 1.5rem;
+    font-size: 0.95rem;
+  }
+
+  footer .footer-club-name {
+    color: #fff;
+    font-weight: 700;
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
+  }
+
+  footer a { color: #9fc0f7; }
+
+  footer .footer-links {
+    margin-top: 0.5rem;
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <!-- Faint decorative math symbols (purely visual, safe to leave alone) -->
+  <span class="math-deco md1">π</span>
+  <span class="math-deco md2">∑</span>
+  <span class="math-deco md3">∞</span>
+  <span class="math-deco md4">√</span>
+  <span class="math-deco md5">Δ</span>
+
+  <div class="header-inner">
+    <!-- EDIT: CLUB NAME - update club name and tagline here -->
+    <h1>Lincoln High Math Club</h1>
+    <p class="tagline">Where numbers, puzzles, and pizza nights collide.</p>
+
+    <!-- Tab navigation -->
+    <nav class="tabs">
+      <button class="tab-btn active" data-tab="home">Home</button>
+      <button class="tab-btn" data-tab="updates">Updates</button>
+      <button class="tab-btn" data-tab="potm">Problem of the Month</button>
+      <button class="tab-btn" data-tab="officers">Officers</button>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+  <!-- ============================================================ -->
+  <!-- TAB 1: HOME                                                    -->
+  <!-- ============================================================ -->
+  <section id="home" class="tab-panel active">
+    <div class="home-hero">
+      <div class="symbol-row">+ − × ÷</div>
+      <!-- EDIT: welcome blurb - change the paragraph below -->
+      <h2>Welcome to Math Club!</h2>
+      <p>
+        We're a group of students who love problem-solving, friendly competition,
+        and the occasional math pun. Whether you're prepping for math competitions,
+        curious about puzzles you won't see in class, or just want a fun place to
+        hang out with fellow math nerds, there's a spot for you here. No experience
+        required - just curiosity.
+      </p>
+    </div>
+
+    <div class="info-grid">
+      <!-- EDIT: MEETING INFO - replace the placeholders below with real meeting details -->
+      <div class="card">
+        <h3>When We Meet</h3>
+        <p>Every [Day of the Week], [Time] – [Time]</p>
+      </div>
+      <div class="card">
+        <h3>Where We Meet</h3>
+        <p>Room [Room Number], [Building Name]</p>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>Why Join?</h3>
+      <p>
+        Solve fun and challenging problems, compete in math competitions as a team,
+        earn snacks and prizes through our Problem of the Month, and build a
+        community with people who think numbers are pretty cool. All grade levels
+        and skill levels welcome!
+      </p>
+    </div>
+
+    <div class="cta-wrap">
+      <!-- This button jumps to the Updates tab -->
+      <button class="btn" onclick="showTab('updates')">See What's Happening →</button>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- TAB 2: UPDATES                                                 -->
+  <!-- ============================================================ -->
+  <section id="updates" class="tab-panel">
+    <h2>Club Updates</h2>
+    <p style="color: var(--muted); margin-top: -0.5rem;">Newest updates appear at the top.</p>
+
+    <!--
+      EDIT: ADD NEW UPDATE HERE
+      To post a new update, COPY one of the "update-card" blocks below
+      (from <div class="card update-card"> down to its closing </div>),
+      PASTE it right after this comment (above the Club Rush card),
+      and then change the date, title, and body text.
+      Always keep the newest update at the TOP of this list.
+    -->
+
+    <div class="card update-card">
+      <span class="update-date">August 31 – September 2</span>
+      <h3>Club Rush</h3>
+      <p>Come find our booth during Club Rush to sign up, meet the officers, and grab info about the year ahead.</p>
+    </div>
+
+    <!-- Placeholder update #1 - edit or delete -->
+    <div class="card update-card">
+      <span class="update-date">[Month Day]</span>
+      <h3>[Placeholder Update Title]</h3>
+      <p>[Placeholder description of the update goes here - swap this out for real info.]</p>
+    </div>
+
+    <!-- Placeholder update #2 - edit or delete -->
+    <div class="card update-card">
+      <span class="update-date">[Month Day]</span>
+      <h3>[Placeholder Update Title]</h3>
+      <p>[Placeholder description of the update goes here - swap this out for real info.]</p>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- TAB 3: PROBLEM OF THE MONTH                                    -->
+  <!-- ============================================================ -->
+  <section id="potm" class="tab-panel">
+    <h2>Problem of the Month</h2>
+
+    <!-- EDIT: PROBLEM OF THE MONTH - update the problem text, month, and image below each month -->
+    <div class="card potm-box">
+      <span class="potm-label">September Problem</span>
+      <h3>[Placeholder Problem Statement]</h3>
+      <p>
+        A farmer has a rectangular field with a perimeter of 100 meters. What
+        dimensions maximize the area of the field? Show your work and justify
+        your answer. (Replace this with the real problem each month.)
+      </p>
+
+      <!-- EDIT: swap this placeholder box for an <img src="..."> tag if the problem needs a diagram -->
+      <div class="potm-image-placeholder">
+        [ Image / diagram placeholder - replace this div with an &lt;img&gt; tag if needed ]
+      </div>
+    </div>
+
+    <div class="prize-callout">
+      <span class="prize-label">Prize</span>
+      <span><strong>The first person to solve it correctly</strong> wins an extra bag of chips from Aureli's class!</span>
+    </div>
+
+    <div class="card submit-box">
+      <h3>How to Submit</h3>
+      <!-- EDIT: replace with real submission instructions (e.g. Google Form link, in-person to an officer, etc.) -->
+      <ol>
+        <li>Write up your full solution, showing all your work.</li>
+        <li>Submit it to [Placeholder: Google Form link / officer name / classroom drop box].</li>
+        <li>Submissions are due by [Placeholder deadline].</li>
+        <li>Winners are announced the following meeting and in the Updates tab.</li>
+      </ol>
+    </div>
+
+    <div class="card">
+      <h3>Archive</h3>
+      <p style="color: var(--muted); margin-top: -0.3rem;">Past problems and their winners.</p>
+      <!-- EDIT: add a new <tr> row here each month to keep the archive growing -->
+      <table class="archive-table">
+        <thead>
+          <tr><th>Month</th><th>Problem</th><th>Winner</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>May</td>
+            <td>[Placeholder problem title]</td>
+            <td>[Winner Name Here]</td>
+          </tr>
+          <tr>
+            <td>April</td>
+            <td>[Placeholder problem title]</td>
+            <td>[Winner Name Here]</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ============================================================ -->
+  <!-- TAB 4: OFFICERS                                                -->
+  <!-- ============================================================ -->
+  <section id="officers" class="tab-panel">
+    <h2>Meet the Officers</h2>
+
+    <div class="officer-grid">
+
+      <!-- EDIT: OFFICER CARD - replace the photo placeholder (swap the div for an <img src="...">), name, and bio -->
+      <div class="card officer-card">
+        <div class="officer-photo">Photo<br>Placeholder</div>
+        <h3>Name Here</h3>
+        <p class="officer-title">President</p>
+        <p class="officer-bio">Fun fact or short bio goes here.</p>
+      </div>
+
+      <div class="card officer-card">
+        <div class="officer-photo">Photo<br>Placeholder</div>
+        <h3>Name Here</h3>
+        <p class="officer-title">Vice President</p>
+        <p class="officer-bio">Fun fact or short bio goes here.</p>
+      </div>
+
+      <div class="card officer-card">
+        <div class="officer-photo">Photo<br>Placeholder</div>
+        <h3>Name Here</h3>
+        <p class="officer-title">Treasurer</p>
+        <p class="officer-bio">Fun fact or short bio goes here.</p>
+      </div>
+
+      <div class="card officer-card">
+        <div class="officer-photo">Photo<br>Placeholder</div>
+        <h3>Name Here</h3>
+        <p class="officer-title">Secretary</p>
+        <p class="officer-bio">Fun fact or short bio goes here.</p>
+      </div>
+
+      <div class="card officer-card">
+        <div class="officer-photo">Photo<br>Placeholder</div>
+        <h3>Name Here</h3>
+        <p class="officer-title">Activities Coordinator</p>
+        <p class="officer-bio">Fun fact or short bio goes here.</p>
+      </div>
+
+    </div>
+  </section>
+
+</main>
+
+<!-- EDIT: FOOTER CONTACT - update club name, email, Instagram, and Remind info below -->
+<footer>
+  <div class="footer-club-name">Lincoln High Math Club</div>
+  <div>Questions? Reach out anytime.</div>
+  <div class="footer-links">
+    <a href="mailto:mathclub@placeholder-school.edu">mathclub@placeholder-school.edu</a>
+    <span>·</span>
+    <a href="https://instagram.com/placeholder_mathclub" target="_blank" rel="noopener">@placeholder_mathclub</a>
+    <span>·</span>
+    <span>Remind: @[placeholder-code]</span>
+  </div>
+</footer>
+
+<script>
+  // Tab-switching logic: shows the selected panel, hides the rest,
+  // and highlights the matching nav button. No page reload needed.
+  function showTab(tabName) {
+    var panels = document.querySelectorAll('.tab-panel');
+    for (var i = 0; i < panels.length; i++) {
+      panels[i].classList.remove('active');
+    }
+    var target = document.getElementById(tabName);
+    if (target) target.classList.add('active');
+
+    var buttons = document.querySelectorAll('.tab-btn');
+    for (var i = 0; i < buttons.length; i++) {
+      buttons[i].classList.remove('active');
+      if (buttons[i].getAttribute('data-tab') === tabName) {
+        buttons[i].classList.add('active');
+      }
+    }
+  }
+
+  // Wire up the nav buttons
+  document.addEventListener('DOMContentLoaded', function () {
+    var buttons = document.querySelectorAll('.tab-btn');
+    for (var i = 0; i < buttons.length; i++) {
+      buttons[i].addEventListener('click', function () {
+        showTab(this.getAttribute('data-tab'));
+      });
+    }
+  });
+</script>
+
+</body>
+</html>

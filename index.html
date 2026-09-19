@@ -88,14 +88,8 @@
   header h1 {
     color: #fff;
     font-size: clamp(2rem, 5vw, 2.8rem);
-    margin-bottom: 0.4rem;
+    margin-bottom: 1.6rem;
     letter-spacing: 0.5px;
-  }
-
-  header p.tagline {
-    color: #cfe0fb;
-    font-size: 1.1rem;
-    margin: 0 0 1.6rem;
   }
 
   /* ---------- Nav / Tabs ---------- */
@@ -249,34 +243,6 @@
     pointer-events: none;
   }
 
-  .potm-label {
-    display: inline-block;
-    background: var(--navy);
-    color: #fff;
-    font-size: 0.8rem;
-    font-weight: 700;
-    letter-spacing: 0.05em;
-    text-transform: uppercase;
-    padding: 0.35rem 0.8rem;
-    border-radius: 4px;
-    margin-bottom: 0.8rem;
-  }
-
-  .potm-image-placeholder {
-    margin-top: 1.2rem;
-    background: #eef2f7;
-    border: 1px dashed #b9c7d6;
-    border-radius: 6px;
-    height: 200px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--muted);
-    font-size: 0.95rem;
-    text-align: center;
-    padding: 1rem;
-  }
-
   .prize-callout {
     background: #fdf3d7;
     border: 1px solid #e8cf8e;
@@ -301,67 +267,51 @@
   }
   .prize-callout strong { color: var(--navy); }
 
-  .submit-box {
-    margin-top: 1.4rem;
-  }
-
-  .submit-box ol { padding-left: 1.2rem; color: var(--text); }
-
-  .archive-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 0.8rem;
-    font-size: 0.95rem;
-  }
-
-  .archive-table th, .archive-table td {
-    text-align: left;
-    padding: 0.6rem 0.7rem;
-    border-bottom: 1px solid var(--border);
-  }
-
-  .archive-table th {
-    color: var(--navy);
-    font-size: 0.85rem;
-    text-transform: uppercase;
-    letter-spacing: 0.04em;
-  }
-
   /* ---------- OFFICERS TAB ---------- */
   .officer-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-    gap: 1.4rem;
+    grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+    gap: 2.4rem;
   }
 
   .officer-card {
     text-align: center;
-    padding: 1.6rem 1.2rem;
+    padding: 3rem 2.4rem;
   }
 
   .officer-photo {
-    width: 110px;
-    height: 110px;
-    margin: 0 auto 1rem;
+    width: 300px;
+    height: 300px;
+    margin: 0 auto 1.6rem;
     background: #d9e2ec;
-    border-radius: 6px;
+    border-radius: 10px;
     display: flex;
     align-items: center;
     justify-content: center;
     color: #7d8b9a;
-    font-size: 0.8rem;
+    font-size: 0.85rem;
     text-align: center;
     border: 1px dashed #b9c7d6;
   }
 
-  .officer-card h3 { font-size: 1.1rem; margin-bottom: 0.15rem; }
+  /* Real officer photos (an actual <img> instead of the placeholder box above).
+     object-fit: contain keeps the whole photo visible (nothing cropped off
+     the top/sides) - any leftover space is filled by the background color. */
+  img.officer-photo {
+    display: block;
+    object-fit: contain;
+    background: #eef2f7;
+    border: 1px solid var(--border);
+  }
+
+  .officer-card h3 { font-size: 1.7rem; margin-bottom: 0.3rem; }
   .officer-title {
     color: var(--blue);
     font-weight: 600;
-    font-size: 0.9rem;
-    margin-bottom: 0.5rem;
+    font-size: 1.15rem;
+    margin-bottom: 0.9rem;
   }
-  .officer-bio { color: var(--muted); font-size: 0.9rem; margin: 0; }
+  .officer-grade { color: var(--muted); font-size: 1rem; margin: 0; }
 
   /* ---------- Footer ---------- */
   footer {
@@ -402,8 +352,7 @@
 
   <div class="header-inner">
     <!-- EDIT: CLUB NAME - update club name and tagline here -->
-    <h1>Lincoln High Math Club</h1>
-    <p class="tagline">Where numbers, puzzles, and pizza nights collide.</p>
+    <h1>John F. Kennedy High Math Club</h1>
 
     <!-- Tab navigation -->
     <nav class="tabs">
@@ -426,11 +375,8 @@
       <!-- EDIT: welcome blurb - change the paragraph below -->
       <h2>Welcome to Math Club!</h2>
       <p>
-        We're a group of students who love problem-solving, friendly competition,
-        and the occasional math pun. Whether you're prepping for math competitions,
-        curious about puzzles you won't see in class, or just want a fun place to
-        hang out with fellow math nerds, there's a spot for you here. No experience
-        required - just curiosity.
+        We're a group of students want to learn more about math. Join us to foster your problem solving 
+        skils in an an open environemnt. We are accessible to all skill levels so do not hesitate to join.  
       </p>
     </div>
 
@@ -438,21 +384,20 @@
       <!-- EDIT: MEETING INFO - replace the placeholders below with real meeting details -->
       <div class="card">
         <h3>When We Meet</h3>
-        <p>Every [Day of the Week], [Time] – [Time]</p>
+        <p>Check our Instagram and Remind for updates.</p>
       </div>
       <div class="card">
         <h3>Where We Meet</h3>
-        <p>Room [Room Number], [Building Name]</p>
+        <p>Room 102</p>
       </div>
     </div>
 
     <div class="card">
       <h3>Why Join?</h3>
       <p>
-        Solve fun and challenging problems, compete in math competitions as a team,
-        earn snacks and prizes through our Problem of the Month, and build a
-        community with people who think numbers are pretty cool. All grade levels
-        and skill levels welcome!
+        We help you prepare for math competitions, provide opportunities 
+        for extra credit, and help out with school-level math. We can also help you 
+        get service learning hours through peer-tutoring.
       </p>
     </div>
 
@@ -479,23 +424,15 @@
     -->
 
     <div class="card update-card">
-      <span class="update-date">August 31 – September 2</span>
+      <span class="update-date">September - Every Monday &amp; Thursday</span>
+      <h3>September Tutoring Sign-Up</h3>
+      <p>Free peer tutoring is here! Sessions run every Monday and Thursday after school in the library from 3:30 to 4 pm. <a href="https://forms.gle/DayJYFQqViybD6FY9" target="_blank" rel="noopener">Sign up here</a>.</p>
+    </div>
+
+    <div class="card update-card">
+      <span class="update-date">August 31 - September 2</span>
       <h3>Club Rush</h3>
       <p>Come find our booth during Club Rush to sign up, meet the officers, and grab info about the year ahead.</p>
-    </div>
-
-    <!-- Placeholder update #1 - edit or delete -->
-    <div class="card update-card">
-      <span class="update-date">[Month Day]</span>
-      <h3>[Placeholder Update Title]</h3>
-      <p>[Placeholder description of the update goes here - swap this out for real info.]</p>
-    </div>
-
-    <!-- Placeholder update #2 - edit or delete -->
-    <div class="card update-card">
-      <span class="update-date">[Month Day]</span>
-      <h3>[Placeholder Update Title]</h3>
-      <p>[Placeholder description of the update goes here - swap this out for real info.]</p>
     </div>
   </section>
 
@@ -505,59 +442,16 @@
   <section id="potm" class="tab-panel">
     <h2>Problem of the Month</h2>
 
-    <!-- EDIT: PROBLEM OF THE MONTH - update the problem text, month, and image below each month -->
+    <!-- EDIT: PROBLEM OF THE MONTH - once the September problem is ready, replace this card with the
+         full featured problem (statement, image/diagram, submission instructions, and archive table). -->
     <div class="card potm-box">
-      <span class="potm-label">September Problem</span>
-      <h3>[Placeholder Problem Statement]</h3>
-      <p>
-        A farmer has a rectangular field with a perimeter of 100 meters. What
-        dimensions maximize the area of the field? Show your work and justify
-        your answer. (Replace this with the real problem each month.)
-      </p>
-
-      <!-- EDIT: swap this placeholder box for an <img src="..."> tag if the problem needs a diagram -->
-      <div class="potm-image-placeholder">
-        [ Image / diagram placeholder - replace this div with an &lt;img&gt; tag if needed ]
-      </div>
+      <h3>Check back on October 1</h3>
+      <p>This month's problem is coming soon. Check back here on October 1 for the full problem statement and submission instructions.</p>
     </div>
 
     <div class="prize-callout">
       <span class="prize-label">Prize</span>
       <span><strong>The first person to solve it correctly</strong> wins an extra bag of chips from Aureli's class!</span>
-    </div>
-
-    <div class="card submit-box">
-      <h3>How to Submit</h3>
-      <!-- EDIT: replace with real submission instructions (e.g. Google Form link, in-person to an officer, etc.) -->
-      <ol>
-        <li>Write up your full solution, showing all your work.</li>
-        <li>Submit it to [Placeholder: Google Form link / officer name / classroom drop box].</li>
-        <li>Submissions are due by [Placeholder deadline].</li>
-        <li>Winners are announced the following meeting and in the Updates tab.</li>
-      </ol>
-    </div>
-
-    <div class="card">
-      <h3>Archive</h3>
-      <p style="color: var(--muted); margin-top: -0.3rem;">Past problems and their winners.</p>
-      <!-- EDIT: add a new <tr> row here each month to keep the archive growing -->
-      <table class="archive-table">
-        <thead>
-          <tr><th>Month</th><th>Problem</th><th>Winner</th></tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>May</td>
-            <td>[Placeholder problem title]</td>
-            <td>[Winner Name Here]</td>
-          </tr>
-          <tr>
-            <td>April</td>
-            <td>[Placeholder problem title]</td>
-            <td>[Winner Name Here]</td>
-          </tr>
-        </tbody>
-      </table>
     </div>
   </section>
 
@@ -569,40 +463,40 @@
 
     <div class="officer-grid">
 
-      <!-- EDIT: OFFICER CARD - replace the photo placeholder (swap the div for an <img src="...">), name, and bio -->
+      <!-- EDIT: OFFICER CARD - to swap a photo, replace the file in the officers/ folder (keep the same filename) or change the src below. Update the name, grade, and fun fact as needed. -->
       <div class="card officer-card">
-        <div class="officer-photo">Photo<br>Placeholder</div>
-        <h3>Name Here</h3>
+        <img class="officer-photo" src="officers/president.png" alt="Ridhima Kapoor">
+        <h3>Ridhima Kapoor</h3>
         <p class="officer-title">President</p>
-        <p class="officer-bio">Fun fact or short bio goes here.</p>
+        <p class="officer-grade">Senior</p>
       </div>
 
       <div class="card officer-card">
-        <div class="officer-photo">Photo<br>Placeholder</div>
-        <h3>Name Here</h3>
+        <img class="officer-photo" src="officers/vp.png" alt="Nandan Surabhi">
+        <h3>Nandan Surabhi</h3>
         <p class="officer-title">Vice President</p>
-        <p class="officer-bio">Fun fact or short bio goes here.</p>
+        <p class="officer-grade">Junior</p>
       </div>
 
       <div class="card officer-card">
-        <div class="officer-photo">Photo<br>Placeholder</div>
-        <h3>Name Here</h3>
+        <img class="officer-photo" src="officers/treasurer.png" alt="Rahini Rahini">
+        <h3>Rahini Rahini</h3>
         <p class="officer-title">Treasurer</p>
-        <p class="officer-bio">Fun fact or short bio goes here.</p>
+        <p class="officer-grade">Senior</p>
       </div>
 
       <div class="card officer-card">
-        <div class="officer-photo">Photo<br>Placeholder</div>
-        <h3>Name Here</h3>
+        <img class="officer-photo" src="officers/secretary.png" alt="Vrishank Arun">
+        <h3>Vrishank Arun</h3>
         <p class="officer-title">Secretary</p>
-        <p class="officer-bio">Fun fact or short bio goes here.</p>
+        <p class="officer-grade">Junior</p>
       </div>
 
       <div class="card officer-card">
-        <div class="officer-photo">Photo<br>Placeholder</div>
-        <h3>Name Here</h3>
+        <img class="officer-photo" src="officers/activities coordinator.png" alt="Sahanya Pallikonda">
+        <h3>Sahanya Pallikonda</h3>
         <p class="officer-title">Activities Coordinator</p>
-        <p class="officer-bio">Fun fact or short bio goes here.</p>
+        <p class="officer-grade">Sophomore</p>
       </div>
 
     </div>
@@ -612,14 +506,14 @@
 
 <!-- EDIT: FOOTER CONTACT - update club name, email, Instagram, and Remind info below -->
 <footer>
-  <div class="footer-club-name">Lincoln High Math Club</div>
+  <div class="footer-club-name">John F. Kennedy High Math Club</div>
   <div>Questions? Reach out anytime.</div>
   <div class="footer-links">
-    <a href="mailto:mathclub@placeholder-school.edu">mathclub@placeholder-school.edu</a>
+    <a href="mailto:jfktitansmath@gmail.com">jfktitansmath@gmail.com</a>
     <span>·</span>
-    <a href="https://instagram.com/placeholder_mathclub" target="_blank" rel="noopener">@placeholder_mathclub</a>
+    <a href="https://instagram.com/jfk_math" target="_blank" rel="noopener">@jfk_math</a>
     <span>·</span>
-    <span>Remind: @[placeholder-code]</span>
+    <span>Remind: @jfkmath27</span>
   </div>
 </footer>
 

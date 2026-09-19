@@ -140,6 +140,28 @@
     to   { opacity: 1; transform: translateY(0); }
   }
 
+  /* Scroll-in reveal effect, applied automatically by JS to cards as they
+     enter the viewport - see the IntersectionObserver setup in the script
+     at the bottom of the page. No manual class edits needed here. */
+  .reveal {
+    opacity: 0;
+    transform: translateY(18px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+  }
+
+  .reveal.reveal-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .reveal {
+      opacity: 1;
+      transform: none;
+      transition: none;
+    }
+  }
+
   .card {
     background: var(--card-bg);
     border: 1px solid var(--border);
@@ -241,6 +263,49 @@
     font-family: Georgia, serif;
     font-weight: bold;
     pointer-events: none;
+  }
+
+  .countdown {
+    position: relative;
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    margin-top: 1.4rem;
+    flex-wrap: wrap;
+  }
+
+  .countdown-unit {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 0.8rem 1rem;
+    min-width: 72px;
+    text-align: center;
+  }
+
+  .countdown-num {
+    display: block;
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--navy);
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .countdown-label {
+    display: block;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--muted);
+    margin-top: 0.3rem;
+  }
+
+  .countdown-done {
+    position: relative;
+    margin: 1.2rem 0 0;
+    font-weight: 600;
+    color: var(--navy);
   }
 
   .prize-callout {
@@ -447,6 +512,14 @@
     <div class="card potm-box">
       <h3>Check back on October 1</h3>
       <p>This month's problem is coming soon. Check back here on October 1 for the full problem statement and submission instructions.</p>
+
+      <!-- Countdown to October 1, updated live by JS below - no edits needed here -->
+      <div class="countdown" id="potm-countdown">
+        <div class="countdown-unit"><span class="countdown-num" id="cd-days">00</span><span class="countdown-label">Days</span></div>
+        <div class="countdown-unit"><span class="countdown-num" id="cd-hrs">00</span><span class="countdown-label">Hours</span></div>
+        <div class="countdown-unit"><span class="countdown-num" id="cd-mins">00</span><span class="countdown-label">Min</span></div>
+        <div class="countdown-unit"><span class="countdown-num" id="cd-secs">00</span><span class="countdown-label">Sec</span></div>
+      </div>
     </div>
 
     <div class="prize-callout">
@@ -537,7 +610,70 @@
     }
   }
 
-  // Wire up the nav buttons
+  // Countdown to October 1 (rolls over to next year automatically once passed)
+  function updateCountdown() {
+    var el = document.getElementById('potm-countdown');
+    if (!el) return;
+
+    var now = new Date();
+    var target = new Date(now.getFullYear(), 9, 1, 0, 0, 0); // month 9 = October
+    if (now >= target) {
+      target = new Date(now.getFullYear() + 1, 9, 1, 0, 0, 0);
+    }
+
+    var diff = target - now;
+    if (diff <= 0) {
+      el.outerHTML = '<p class="countdown-done">It\'s October 1 - check back for the new problem!</p>';
+      return;
+    }
+
+    function pad(n) { return n < 10 ? '0' + n : String(n); }
+    var days = Math.floor(diff / 86400000);
+    var hours = Math.floor((diff % 86400000) / 3600000);
+    var mins = Math.floor((diff % 3600000) / 60000);
+    var secs = Math.floor((diff % 60000) / 1000);
+
+    document.getElementById('cd-days').textContent = pad(days);
+    document.getElementById('cd-hrs').textContent = pad(hours);
+    document.getElementById('cd-mins').textContent = pad(mins);
+    document.getElementById('cd-secs').textContent = pad(secs);
+  }
+
+  // Fade/slide in cards as they scroll into view (skips the effect entirely
+  // if the visitor's system prefers reduced motion)
+  function setUpScrollReveal() {
+    var prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    document.querySelectorAll('.tab-panel').forEach(function (panel) {
+      var items = panel.querySelectorAll('.card, .prize-callout');
+      items.forEach(function (el, i) {
+        el.classList.add('reveal');
+        el.style.transitionDelay = (i * 70) + 'ms';
+      });
+    });
+
+    if (prefersReducedMotion || !('IntersectionObserver' in window)) {
+      document.querySelectorAll('.reveal').forEach(function (el) {
+        el.classList.add('reveal-visible');
+      });
+      return;
+    }
+
+    var observer = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('reveal-visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.reveal').forEach(function (el) {
+      observer.observe(el);
+    });
+  }
+
+  // Wire up the nav buttons, countdown, and scroll animations
   document.addEventListener('DOMContentLoaded', function () {
     var buttons = document.querySelectorAll('.tab-btn');
     for (var i = 0; i < buttons.length; i++) {
@@ -545,6 +681,11 @@
         showTab(this.getAttribute('data-tab'));
       });
     }
+
+    updateCountdown();
+    setInterval(updateCountdown, 1000);
+
+    setUpScrollReveal();
   });
 </script>
 
